@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Matrix Innovation Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script><script src="config.js"></script>
+<style>
+:root{--c:#7b3fe4;--d:#3d1260;--line:#dde3ee;--bg:#f5f7fb}*{box-sizing:border-box}
+body{margin:0;font:14px/1.45 system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:#1b2433}
+header{background:var(--d);color:#fff;padding:12px 18px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}header img{height:38px;background:#fff;border-radius:8px;padding:3px}header h1{font-size:18px;margin:0}header button{margin-left:auto}
+button,.b{background:var(--c);color:#fff;border:0;border-radius:8px;padding:7px 13px;font:600 13px inherit;cursor:pointer}button.s{background:#fff;color:var(--c);border:1.5px solid var(--c)}button.r{background:#c0392b}
+input,select{font:inherit;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:#fff;max-width:100%;min-width:90px}input[type=checkbox]{min-width:0}
+.tabs{display:flex;gap:6px;padding:12px 18px 0;flex-wrap:wrap}.tabs button{background:#fff;color:#1b2433;border:1px solid var(--line)}.tabs button[aria-pressed=true]{background:var(--c);color:#fff;border-color:var(--c)}
+main{padding:14px 18px}.box{max-width:380px;margin:70px auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;display:grid;gap:10px}
+.sc{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%}th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#eef1f8;font-size:12px;white-space:nowrap}
+.st{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}.st div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 16px}.st b{display:block;font-size:20px;color:var(--c)}
+.add{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;background:#fff;padding:12px;border:1px solid var(--line);border-radius:12px;align-items:end}.add label{display:grid;gap:3px;font-size:12px;font-weight:600}
+dialog{border:0;border-radius:14px;max-width:640px;width:94vw}.it{border-bottom:1px solid var(--line);padding:10px 0}pre{white-space:pre-wrap;margin:4px 0;font:12px/1.4 inherit}#msg{color:#c0392b;min-height:18px}.ok{color:#1c7c3a}
+</style></head><body>
+<header><img src="logo.jpg" alt="Matrix System Care"><h1>Matrix Innovation Admin</h1><button class="s" id="so" hidden>Sign out</button></header>
+<div id="app"></div><dialog id="dg"></dialog>
+<script>
+const DIV='innovation',TABS=[{"t": "Orders", "tb": "innovation_orders", "items": 1, "stats": 1, "cols": [["order_no", "Order", "ro"], ["created_at", "Placed", "ts"], ["customer_name", "Customer", "ro"], ["phone", "Phone", "ro"], ["address", "Address", "ro"], ["status", "Status", ["new", "confirmed", "in production", "ready", "shipped", "delivered", "cancelled"]], ["payment_status", "Payment", ["unpaid", "paid", "refunded"]], ["delivery_charge", "Delivery ₹", "number"], ["total", "Total ₹", "number"], ["notes", "Notes", "text"]], "del": 1}, {"t": "Products", "tb": "innovation_products", "asc": "sort", "add": 1, "cols": [["id", "ID", "id"], ["name", "Name", "text"], ["category", "Category", ["Customized Resin Art Diaries", "Customized Chocolate Wraps", "Resin Art & Decorative Gifts", "Personalized Kids’ Gifts", "Personalized Accessories", "Customized Photo & Decorative Products"]], ["description", "Description", "text"], ["price", "Price ₹", "number"], ["min_qty", "Min qty", "number"], ["status", "Status", ["available", "made_to_order", "out_of_stock", "coming_soon"]], ["customizable", "Custom", "bool"], ["active", "Show", "bool"], ["image_url", "Image URL", "text"], ["sort", "Order", "number"]], "del": 1}, {"t": "Enquiries", "tb": "innovation_enquiries", "cols": [["created_at", "Received", "ts"], ["name", "Name", "ro"], ["phone", "Phone", "ro"], ["product_id", "Product", "ro"], ["message", "Message", "ro"], ["status", "Status", ["new", "contacted", "in progress", "done", "cancelled"]]], "del": 1}, {"t": "Customers", "tb": "innovation_customers", "cols": [["created_at", "Joined", "ts"], ["name", "Name", "ro"], ["phone", "Phone", "ro"], ["email", "Email", "ro"]]}];
+const $=s=>document.querySelector(s),E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sb=window.supabase&&CFG.url&&CFG.url.indexOf('http')==0?window.supabase.createClient(CFG.url,CFG.key):null;
+const app=$('#app');
+function note(t,ok){const m=$('#msg');if(m){m.textContent=t;m.className=ok?'ok':''}}
+function login(m){app.innerHTML=`<div class="box"><h2 style="margin:0">Admin sign in</h2>${sb?'':'<p>'+(!window.supabase?'The Supabase library did not load. Check your internet connection or ad blocker, then refresh.':'config.js has no Supabase URL or key. Upload the latest config.js, then hard refresh with Ctrl+F5.')+'</p>'}<input id="em" type="email" placeholder="Email" autocomplete="username"><input id="pw" type="password" placeholder="Password" autocomplete="current-password"><button id="go">Sign in</button><div id="msg" role="status">${E(m||'')}</div></div>`;
+$('#go').onclick=async()=>{if(!sb)return;const r=await sb.auth.signInWithPassword({email:$('#em').value.trim(),password:$('#pw').value});if(r.error)return note(r.error.message);start()};$('#so').hidden=true}
+async function start(){if(!sb)return login();const{data}=await sb.auth.getSession();if(!data.session)return login();
+const r=await sb.from('admin_roles').select('role').eq('user_id',data.session.user.id);
+if(r.error||!(r.data||[]).some(x=>x.role==DIV||x.role=='owner')){await sb.auth.signOut();return login('This account does not have access to this admin area.')}
+$('#so').hidden=false;$('#so').onclick=async()=>{await sb.auth.signOut();login()};
+app.innerHTML=`<div class="tabs">${TABS.map((t,i)=>`<button data-i="${i}" aria-pressed="false">${t.t}</button>`).join('')}</div><main id="mn"></main>`;
+document.querySelector('.tabs').onclick=e=>{const b=e.target.closest('[data-i]');if(b)show(+b.dataset.i)};show(0)}
+function cell(c,v){const[k,l,t]=c;if(t=='ro'||t=='id')return E(v);if(t=='ts')return E(v?new Date(v).toLocaleString():'');
+if(Array.isArray(t))return `<select data-k="${k}">${t.map(o=>`<option${o==v?' selected':''}>${E(o)}</option>`).join('')}</select>`;
+if(t=='bool')return `<input type="checkbox" data-k="${k}"${v?' checked':''}>`;return `<input data-k="${k}" type="${t=='number'?'number':'text'}" step="any" value="${E(v)}">`}
+const val=el=>el.type=='checkbox'?el.checked:el.type=='number'?(el.value===''?null:Number(el.value)):el.value;
+async function show(i){const T=TABS[i];document.querySelectorAll('.tabs button').forEach((b,j)=>b.setAttribute('aria-pressed',i==j));
+const mn=$('#mn');mn.innerHTML='Loading…';
+const r=await sb.from(T.tb).select('*').order(T.asc||'created_at',{ascending:!!T.asc}).limit(500);
+if(r.error){mn.innerHTML='<p>Could not load: '+E(r.error.message)+'</p>';return}const rows=r.data||[];
+let h='';if(T.stats){const live=rows.filter(o=>o.status!='cancelled'),paid=rows.filter(o=>o.payment_status=='paid');const sum=a=>a.reduce((s,o)=>s+(+o.total||0),0);
+h+=`<div class="st"><div><b>${rows.length}</b>Orders</div><div><b>${rows.filter(o=>o.status=='new').length}</b>New</div><div><b>${rows.filter(o=>o.status=='delivered').length}</b>Delivered</div><div><b>₹${sum(paid)}</b>Paid sales</div><div><b>₹${sum(live)}</b>Order value (not cancelled)</div></div>`}
+if(T.add)h+=`<div class="add">${T.cols.filter(c=>!['ts','ro'].includes(c[2])).map(c=>`<label>${c[1]}${cell([c[0],c[1],c[2]=='id'?'text':c[2]],c[2]=='bool'?true:'').replace('data-k=','data-a=')}</label>`).join('')}<button id="ad">Add</button></div>`;
+h+=`<div class="sc"><table><thead><tr>${T.cols.map(c=>`<th>${c[1]}</th>`).join('')}<th></th></tr></thead><tbody>${rows.map(x=>`<tr data-id="${x.id}">${T.cols.map(c=>`<td>${cell(c,x[c[0]])}</td>`).join('')}<td style="white-space:nowrap"><button data-a="sv">Save</button> ${T.items?'<button class="s" data-a="it">Items</button> ':''}${T.del?'<button class="r" data-a="dl">Delete</button>':''}</td></tr>`).join('')||`<tr><td colspan="${T.cols.length+1}">Nothing here yet.</td></tr>`}</tbody></table></div><p id="msg" role="status"></p>`;
+mn.innerHTML=h;
+const ad=$('#ad');if(ad)ad.onclick=async()=>{const o={};document.querySelectorAll('.add [data-a]').forEach(el=>{o[el.dataset.a]=val(el)});const e=await sb.from(T.tb).insert(o);e.error?note(e.error.message):show(i)};
+mn.querySelector('tbody').onclick=async e=>{const b=e.target.closest('[data-a]');if(!b)return;const tr=b.closest('tr'),id=tr.dataset.id;
+if(b.dataset.a=='sv'){const o={};tr.querySelectorAll('[data-k]').forEach(el=>{o[el.dataset.k]=val(el)});const u=await sb.from(T.tb).update(o).eq('id',id);u.error?note(u.error.message):note('Saved.',1)}
+if(b.dataset.a=='dl'&&confirm('Delete this record permanently?')){const d=await sb.from(T.tb).delete().eq('id',id);d.error?note(d.error.message):show(i)}
+if(b.dataset.a=='it')items(id,tr.children[0].textContent)}}
+async function items(id,no){const r=await sb.from('innovation_order_items').select('*').eq('order_id',id);const dg=$('#dg');
+const L={name:'Name to print',msg:'Message',des:'Design',col:'Colour',photo:'Photo (collect on WhatsApp)',note:'Notes'};
+dg.innerHTML=`<h3>Order ${E(no)}: items and customisation</h3>${(r.data||[]).map(x=>`<div class="it" data-id="${x.id}"><b>${E(x.product_name)}</b> x ${x.qty}${x.unit_price?' at ₹'+x.unit_price:''}<pre>${Object.entries(x.customization||{}).filter(e=>e[1]).map(e=>E((L[e[0]]||e[0])+': '+e[1])).join('\n')||'No customisation'}</pre>Review: <select>${['pending','approved','changes needed','rejected'].map(o=>`<option${o==x.customization_status?' selected':''}>${o}</option>`).join('')}</select> <button>Save review</button></div>`).join('')||'<p>No items.</p>'}<p><button class="s" onclick="dg.close()">Close</button></p>`;
+dg.querySelectorAll('.it button').forEach(b=>b.onclick=async()=>{const d=b.closest('.it');const u=await sb.from('innovation_order_items').update({customization_status:d.querySelector('select').value}).eq('id',d.dataset.id);b.textContent=u.error?'Failed':'Saved'});dg.showModal()}
+const dg=$('#dg');start();
+</script></body></html>
