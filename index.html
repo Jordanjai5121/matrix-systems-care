@@ -1,29 +1,69 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Matrix System Care – Matrix Tech &amp; Matrix Innovation</title>
+<meta name="description" content="Matrix System Care, Arni: computer, laptop, mobile, CCTV and AMC services (Matrix Tech) and customised gifts, resin art and chocolate wraps (Matrix Innovation).">
 <link rel="icon" href="/favicon.ico?v=2" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
-<script src="/matrix-config.js" defer></script>
-<title>Matrix System Care – Matrix Tech and Matrix Innovation</title>
-<meta name="description" content="Matrix System Care, Arni. Choose Matrix Tech for IT services and AMC, or Matrix Innovation for customized gifts and resin art.">
-<link rel="canonical" href="https://www.matrixsystemcare.com/"><meta property="og:title" content="Matrix System Care"><meta property="og:image" content="logo.jpg">
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}*,*:before,*:after{box-sizing:inherit}
-body{margin:0;font:17px/1.5 system-ui,"Segoe UI",Roboto,sans-serif;background:#f4f8fc;color:#0b1b33;min-height:100vh;display:flex;flex-direction:column}
-header{text-align:center;padding:34px 20px 8px}header img{width:min(380px,80vw);height:auto;margin:0 auto}
-header p{margin:10px 0 0;color:#4a5b75;font-weight:600}
-main{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:980px;width:100%;margin:26px auto;padding:0 20px}
-a.bx{display:flex;flex-direction:column;gap:10px;justify-content:space-between;min-height:260px;padding:30px;border-radius:26px;text-decoration:none;color:#fff;transition:transform .15s}
-a.bx:hover,a.bx:focus-visible{transform:translateY(-4px)}a.bx:focus-visible{outline:4px solid #f5b301;outline-offset:3px}
-.t{background:#071a3a;border:3px solid #0a5bd8}.i{background:#4b1a73;border:3px solid #e0307f}
-h2{font:800 clamp(26px,4vw,36px)/1.1 Georgia,serif;margin:0}.t h2{color:#fff}.i h2{color:#fff}
-a.bx p{margin:0;color:#e4ecfb;max-width:34ch}.go{align-self:flex-start;background:#fff;border-radius:999px;padding:10px 20px;font-weight:800}.t .go{color:#0a5bd8}.i .go{color:#c2185b}
-footer{text-align:center;padding:16px 20px 24px;color:#4a5b75;font-size:14px}footer a{color:inherit}
-@media(max-width:720px){main{grid-template-columns:1fr}}
+@property --r{syntax:'<percentage>';inherits:false;initial-value:140%}
+html{background:#dfe7f8}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font:15px/1.5 "Segoe UI",system-ui,sans-serif;color:#46536a;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);overflow-x:hidden}
+ 
+/* ---- background world (sits behind everything, never catches clicks) ---- */
+.world{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 50% 46%,#fff8e6 0,#efe9ff 45%,#d9e6ff 80%,#c9d4f5 100%)}
+.world>*{position:absolute}
+.mist{width:60vmax;height:60vmax;border-radius:50%;filter:blur(60px);opacity:.55}
+.m1{left:-20vmax;bottom:-25vmax;background:radial-gradient(circle,#c8b6ff,transparent 65%);animation:drift 20s ease-in-out infinite alternate}
+.m2{right:-20vmax;top:-25vmax;background:radial-gradient(circle,#ffe2a0,transparent 65%);animation:drift 24s ease-in-out infinite alternate-reverse}
+@keyframes drift{to{transform:translate(8vmax,-5vmax) scale(1.15)}}
+.rays{left:50%;top:46%;width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;background:repeating-conic-gradient(rgba(255,232,150,.32) 0 5deg,transparent 5deg 16deg);-webkit-mask-image:radial-gradient(circle,#000 0,transparent 52%);mask-image:radial-gradient(circle,#000 0,transparent 52%);animation:spin 100s linear infinite,show 3s 1.6s ease both}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes show{from{opacity:0}}
+.aura{left:50%;top:46%;width:90vmax;height:90vmax;margin:-45vmax 0 0 -45vmax;background:radial-gradient(circle,rgba(255,252,235,.95) 0,rgba(255,236,170,.55) 18%,rgba(190,170,255,.25) 40%,transparent 62%);animation:bloom 4s ease-out both,breathe 7s ease-in-out 4s infinite}
+@keyframes bloom{from{transform:scale(.04);opacity:1}to{transform:scale(1);opacity:.9}}
+@keyframes breathe{50%{transform:scale(1.08);opacity:.7}}
+.sparks i{position:absolute;border-radius:50%;background:radial-gradient(#fff,#ffe9a8 50%,transparent 72%);box-shadow:0 0 8px 2px rgba(255,214,120,.65);opacity:0;animation:tw var(--d) ease-in-out var(--l) infinite}
+@keyframes tw{0%{opacity:0;transform:translateY(0) scale(.5)}50%{opacity:1}100%{opacity:0;transform:translateY(-70px) scale(1)}}
+.dark{inset:0;background:radial-gradient(circle at 50% 46%,transparent calc(var(--r) * .55),rgba(10,12,40,.97) var(--r));animation:open 4s cubic-bezier(.3,.1,.2,1) both,gone 1.6s 3.2s ease forwards}
+@keyframes open{from{--r:0%}to{--r:140%}}
+@keyframes gone{to{opacity:0}}
+ 
+/* ---- front content ---- */
+.hero{position:relative;width:min(1100px,100%)}
+.hero img{display:block;width:100%;height:auto;mix-blend-mode:multiply;animation:arrive 1.8s 1.6s ease both;
+ -webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 92%,transparent);
+ -webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent),linear-gradient(to bottom,transparent,#000 5%,#000 92%,transparent);mask-composite:intersect}
+@keyframes arrive{from{opacity:0;transform:scale(.96) translateY(12px)}}
+.hit{position:absolute;top:45%;height:41%;width:38.4%;border-radius:4%;transition:transform .2s,box-shadow .2s}
+.hit.tech{left:10.5%}.hit.inno{left:51%}
+.hit:hover{transform:translateY(-5px);box-shadow:0 14px 34px rgba(16,24,32,.3)}
+.hit:focus-visible{outline:3px solid #ffc107;outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+footer{text-align:center;font-size:13px;padding:8px 16px 18px;color:#4d5a70;animation:show 1.5s 2.4s ease both}
+@media(prefers-reduced-motion:reduce){.world *,.hero img,footer{animation:none!important}.dark{display:none}.rays{opacity:.8}}
 </style></head><body>
-<header><img src="logo.jpg" alt="Matrix System Care logo"><p>Your IT, our priority. Your growth, our promise.</p></header>
-<main>
-<a class="bx t" href="tech.html"><div><h2>Matrix Tech</h2><p>Computer, laptop, mobile, CCTV, networking and AMC plans.</p></div><span class="go">Open Matrix Tech</span></a>
-<a class="bx i" href="innovation.html"><div><h2>Matrix Innovation</h2><p>Creativity Meets Innovation. Customized gifts, resin art and chocolate wraps.</p></div><span class="go">Open Matrix Innovation</span></a>
+<div class="world" aria-hidden="true">
+ <div class="mist m1"></div><div class="mist m2"></div>
+ <div class="rays"></div><div class="aura"></div>
+ <div class="sparks" id="sparks"></div>
+ <div class="dark"></div>
+</div>
+<main class="hero">
+ <h1 class="sr">Matrix System Care</h1>
+ <img src="matrix-landing.png" width="1024" height="572" alt="Matrix System Care. Matrix Tech: computer, laptop, mobile, CCTV, networking and AMC plans. Matrix Innovation: customised gifts, resin art and chocolate wraps.">
+ <a class="hit tech" href="tech.html" aria-label="Open Matrix Tech"></a>
+ <a class="hit inno" href="innovation.html" aria-label="Open Matrix Innovation"></a>
 </main>
-<footer>1167G/3, Ammai Appar Complex, E.B. Nagar Main Road, Sevoor, Arni 632316 · <a href="tel:04173224304">04173224304</a></footer>
+<footer>© 2026 Matrix System Care · 1167G/3, Ammai Appar Complex, E.B. Nagar Main Road, Sevoor, Arni 632316</footer>
+<script>
+(function(){var box=document.getElementById('sparks');
+ if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ var n=innerWidth<700?18:38;
+ for(var i=0;i<n;i++){var s=document.createElement('i'),z=2+Math.random()*4;
+  s.style.cssText='left:'+Math.random()*100+'%;top:'+(10+Math.random()*85)+'%;width:'+z+'px;height:'+z+'px;--d:'+(5+Math.random()*6)+'s;--l:'+(2.2+Math.random()*6)+'s';
+  box.appendChild(s)}})();
+</script>
 </body></html>
+ 
